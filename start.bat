@@ -4,3 +4,4 @@ start cmd.exe /k "ng serve"
 
 cd ../server
 start cmd.exe /k "nodemon index"
+
