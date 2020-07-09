@@ -1,0 +1,5 @@
+{
+    "development": {
+        "JWT_SECRET": "SECRET#123"
+    }
+}

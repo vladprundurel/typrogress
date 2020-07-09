@@ -1,0 +1,54 @@
+<div class="content">
+        
+  <form class="pt-4" #foodForm="ngForm" (ngSubmit)="submitFood(foodForm)">
+      <div class="col-xl-6 col-md-6 col-lg-6">
+      <div class="card shadow mb-4">
+      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h3><i class="fas fa-utensils"></i> Add food in database</h3>
+        </div>
+      
+      <div class="card border-left-primary shadow h-100 py-2">
+        <div class="card-body">
+
+          <div class="row mb-2"><div class="col-md-2"><p>Name: </p></div><div class="col-md-7"><input type="text" class="form-control" name="name" id="name"  #name="ngModel" [(ngModel)]="foodService.food.name" placeholder="Food name"></div></div>
+          
+          <div class="row mb-2"><div class="col-md-2"><p>Quantity: </p></div><div class="col-md-8">
+              <select id="quantity" class="form-control" name="quantity" style="width: 200px;" #quantity="ngModel" [(ngModel)]="foodService.food.quantity">
+              <option value="100" selected>100</option>
+              <option value="10">10</option>
+              <option value="1">1</option>
+              </select></div></div>
+
+          <div class="row mb-2"><div class="col-md-2"><p>Unit: </p></div><div class="col-md-8">
+          <select id="unit" class="form-control" name="unit" style="width: 200px;" #unit="ngModel" [(ngModel)]="foodService.food.unit">
+          <option value="g" selected>Grams</option>
+          <option value="l">Litres</option>
+          <option value="kg">Kilograms</option>
+          <option value="number">Number</option>
+          </select></div></div>
+
+          <div class="row mb-2"><div class="col-md-2"><p>Proteins(g): </p></div><div class="col-md-6"><input type="number" class="form-control" name="proteins" id="proteins" #proteins="ngModel" [(ngModel)]="foodService.food.proteins" (change)="updateCalories()" placeholder="Proteins"></div></div>
+
+          <div class="row mb-2"><div class="col-md-2"><p>Carbs(g): </p></div><div class="col-md-6"><input type="number" class="form-control" name="carbs" id="carbs" #carbs="ngModel" [(ngModel)]="foodService.food.carbs" (change)="updateCalories()" placeholder="Carbs"></div></div>
+
+          <div class="row mb-2"><div class="col-md-2"><p>Fats(g): </p></div><div class="col-md-6"><input type="number" class="form-control" name="fats" id="fats" #fats="ngModel" [(ngModel)]="foodService.food.fats" (change)="updateCalories()" placeholder="Fats"></div></div>
+            
+          <div class="row mb-2"><div class="col-md-2"><p>Calories: </p></div><div class="col-md-6"><input type="number" class="form-control" name="kcal" id="kcal" #kcal="ngModel" [(ngModel)]="foodService.food.calories" readonly placeholder="Kcal"></div></div>
+          </div>
+
+      <input type="submit" class="btn btn-primary btn-lg" value="submit">
+      <div class="success" *ngIf="showSuccessMessage">
+          Saved successfully
+      </div>
+      <div class="alert" *ngIf="showErrorMessage">
+          Saved unsuccessfully
+      </div>
+
+      </div>
+    </div>
+  </div>
+    
+  </form>
+
+
+</div>

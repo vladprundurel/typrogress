@@ -1,0 +1,5 @@
+<div class="content">
+    <h1 class="text-center" *ngIf="userDetails&&userDetails.role!='admin'">Welcome to your dashboard, {{userDetails.first_name}}!</h1>
+    <h1 class="text-center" *ngIf="userDetails&&userDetails.role=='admin'">Welcome, admin! You can start editing and adding in database.</h1>
+    <img src ="../assets/img/undraw_working_out_6psf.png" />
+</div>

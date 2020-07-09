@@ -1,0 +1,260 @@
+<div class="content">
+  <h1>Add your meals: </h1>
+
+  <div class = "row">
+
+  
+  <form class="form-inline col-md-2">
+    <div class="form-group">
+      <div class="input-group">
+        <input class="form-control" placeholder="yyyy-mm-dd"
+               name="dp" [(ngModel)]="model" (ngModelChange)="setDate()" ngbDatepicker #d="ngbDatepicker">
+        <div class="input-group-append ml-1">
+          <i class="far fa-calendar-alt fa-2x"(click)="d.toggle()" type="button"></i>
+          <!-- <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button> -->
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="col">
+    <h3>Total Calories: {{totalCaloriesByFoodAdded}} kcal ({{dailyNutritionGoals.calories}} kcals, {{dailyNutritionGoals.proteins.number}} p, {{dailyNutritionGoals.carbs.number}} c, {{dailyNutritionGoals.fats.number}} f GOAL)</h3>
+  </div>
+</div>
+     
+  <hr/>
+<!-- <pre>Model: {{ model | json }}</pre> -->
+
+  <!-- <div class="col-xl-10 col-md-10 mb-3" *ngFor="let meals of separatedMealsByMealType | keyvalue"> -->
+    <div class="col-xl-12 col-md-12 mb-3" *ngFor="let mT of mealTime">
+    <div class="card border-left-primary shadow h-100 py-2">
+      <div class="card-body row">
+              <div class="font-weight-bold text-primary text-uppercase mb-1 col-md-2">
+                <h3>{{mT.type}}</h3>
+                <!-- <div *ngFor="let m of mealsReceiveFromServer">
+                  <p *ngIf="m.mealByUser.type==mT.type">MEAL</p>
+                </div>
+                -->
+                <a (click)="open(addMealModal, mT.type)"><i
+                    class="fas fa-plus fa-2x"></i></a>
+              </div>
+            <!-- <div class = "col-md-6"> -->
+            <!-- <div *ngFor="let m of separatedMealsByMealType[mT.type]">
+              <p>{{m.mealByUser.food | json }}</p>
+            </div> -->
+            <!-- <div *ngIf="separatedMealsByMealType&&separatedMealsByMealType[mT.type]">
+              <p>{{separatedMealsByMealType[mT.type] | json}}</p>
+            </div> -->
+            
+
+
+            <table class="table table-bordered table-hover col-md-4 active">
+              <thead>
+                <tr>
+                  <td>Food name</td>
+                  <td>Calories</td>
+                  <td>Quantity</td>
+                  <td>Proteins (g)</td>
+                  <td>Carbs (g)</td>
+                  <td>Fats (g)</td>
+                  <!-- <td>Added by:</td> -->
+                </tr>
+              </thead>
+              <tbody *ngIf="separatedMealsByMealType&&separatedMealsByMealType[mT.type]&&separatedMealsByMealType[mT.type].mealByUser&&separatedMealsByMealType[mT.type].mealByUser.food">
+                <tr class=clickable-row active *ngFor="let sm of this.separatedMealsByMealType[mT.type].mealByUser.food">
+                  <td>{{sm.name}}</td>
+                  <td>{{sm.calories}}</td>
+                  <td>{{sm.quantity}} {{sm.unit}}</td>
+                  <td>{{sm.proteins}}</td>
+                  <td>{{sm.carbs}}</td>
+                  <td>{{sm.fats}}</td>
+                  <!-- <td>{{sm.addedBy}}</td> -->
+                </tr>
+              </tbody>
+            </table>
+          <!-- </div> -->
+       
+          <div class="col-md-2" style="display: block;" *ngIf="separatedMealsByMealType&&separatedMealsByMealType[mT.type]&&separatedMealsByMealType[mT.type].mealByUser&&separatedMealsByMealType[mT.type].mealByUser.food">
+            <canvas width="400" height = "400" baseChart
+              chartType="pie"
+              [data]="[separatedMealsByMealType[mT.type].mealByUser.nutritionFacts.totalProteins, separatedMealsByMealType[mT.type].mealByUser.nutritionFacts.totalCarbs, separatedMealsByMealType[mT.type].mealByUser.nutritionFacts.totalFats]"
+              [labels]="chartLabels"
+              [options]="chartOptions"
+              [plugins]="chartPlugins"
+              [legend]="chartLegend">
+              
+            </canvas>
+          </div>
+          <div class="col-md-2" style="display: block;" *ngIf="!separatedMealsByMealType || !separatedMealsByMealType[mT.type] || !separatedMealsByMealType[mT.type].mealByUser || !separatedMealsByMealType[mT.type].mealByUser.food">
+            <canvas width="400" height = "400" baseChart
+              chartType="pie"
+              [data]="[0, 0, 0]"
+              [labels]="chartLabels"
+              [options]="chartOptions"
+              [plugins]="chartPlugins"
+              [legend]="chartLegend">
+              
+            </canvas>
+          </div>
+          <div class="col" *ngIf="separatedMealsByMealType&&separatedMealsByMealType[mT.type]&&separatedMealsByMealType[mT.type].mealByUser&&separatedMealsByMealType[mT.type].mealByUser.food; else noFoodAdded">
+          <h5>Nutrition Facts: </h5>
+
+          <!-- ------ -->
+          <div class="card-body">
+            <table class = "table">
+              <tbody>
+                <tr>
+                  <th scope="row">Calories <i style="color: green" *ngIf="separatedMealsByMealType[mT.type].mealByUser.nutritionFacts.totalCalories <= separatedMealsByMealType[mT.type].macronutrients_goal.calories ;else warningCalories" class="fas fa-thumbs-up"></i><ng-template #warningCalories><i style="color: red" class="fas fa-thumbs-down"></i></ng-template></th>
+                  <td>{{separatedMealsByMealType[mT.type].mealByUser.nutritionFacts.totalCalories}} kcals</td>
+                  <td>{{separatedMealsByMealType[mT.type].macronutrients_goal.calories}} kcal goal</td>
+                </tr>
+                <tr>
+                  <th scope="row">Proteins <i style="color: green" *ngIf="separatedMealsByMealType[mT.type].mealByUser.nutritionFacts.totalProteins <= separatedMealsByMealType[mT.type].macronutrients_goal.proteins.number ;else warningProteins" class="fas fa-thumbs-up"></i><ng-template #warningProteins><i style="color: red" class="fas fa-thumbs-down"></i></ng-template></th>
+                  <td>{{separatedMealsByMealType[mT.type].mealByUser.nutritionFacts.totalProteins}} g</td>
+                  <td>{{separatedMealsByMealType[mT.type].macronutrients_goal.proteins.number}} g goal</td>
+                </tr>
+                <tr>
+                  <th scope="row">Carbohydrates <i style="color: green" *ngIf="separatedMealsByMealType[mT.type].mealByUser.nutritionFacts.totalCarbs <= separatedMealsByMealType[mT.type].macronutrients_goal.carbs.number ;else warningCarbs" class="fas fa-thumbs-up"></i><ng-template #warningCarbs><i style="color: red" class="fas fa-thumbs-down"></i></ng-template></th>
+                  <td>{{separatedMealsByMealType[mT.type].mealByUser.nutritionFacts.totalCarbs}} g</td>
+                  <td>{{separatedMealsByMealType[mT.type].macronutrients_goal.carbs.number}} g goal</td>
+                </tr>
+                <tr>
+                  <th scope="row">Fats <i style="color: green" *ngIf="separatedMealsByMealType[mT.type].mealByUser.nutritionFacts.totalFats <= separatedMealsByMealType[mT.type].macronutrients_goal.fats.number ;else warningFats" class="fas fa-thumbs-up"></i><ng-template #warningFats><i style="color: red" class="fas fa-thumbs-down"></i></ng-template></th>
+                  <td>{{separatedMealsByMealType[mT.type].mealByUser.nutritionFacts.totalFats}} g</td>
+                  <td>{{separatedMealsByMealType[mT.type].macronutrients_goal.fats.number}} g goal</td>
+                </tr>
+                
+              </tbody>
+            </table>
+            <hr>
+          </div>
+
+          <!-- ------ -->
+          <!-- <h6>Proteins: {{separatedMealsByMealType[mT.type].mealByUser.nutritionFacts.totalProteins}} g ({{separatedMealsByMealType[mT.type].macronutrients_goal.proteins.number}} g goal)</h6>
+          <h6>Carbs: {{separatedMealsByMealType[mT.type].mealByUser.nutritionFacts.totalCarbs}} g, ({{separatedMealsByMealType[mT.type].macronutrients_goal.carbs.number}} g goal)</h6>
+          <h6>Fats: {{separatedMealsByMealType[mT.type].mealByUser.nutritionFacts.totalFats}} g, ({{separatedMealsByMealType[mT.type].macronutrients_goal.fats.number}} g goal)</h6>
+          <h6>Calories: {{separatedMealsByMealType[mT.type].mealByUser.nutritionFacts.totalCalories}} , ({{separatedMealsByMealType[mT.type].macronutrients_goal.calories}} kcal goal)</h6>
+          <code *ngIf="separatedMealsByMealType[mT.type].mealByUser.nutritionFacts.totalCalories > separatedMealsByMealType[mT.type].macronutrients_goal.calories">Pay attention <i class="far fa-thumbs-up"></i></code>
+          </div>
+          <ng-template #noFoodAdded><h5 class="col">No food added</h5></ng-template> -->
+          
+
+
+
+      </div>
+    </div>
+
+
+    <!-- modal -->
+    <ng-template #addMealModal let-modal let-c="close" let-d="dismiss">
+          <div class="modal-header">
+            <i class="fas fa-utensils fa-2x"></i><h4 class="modal-title ml-1">Add food for {{typeSelected}}</h4>
+            <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <input type="text" class="form-control bg-light border-0 small" id="{{mT.type}}" [(ngModel)]="_searchTerm"
+              (input)="filterFood(this._searchTerm)" placeholder="Search for food...">
+        <div class="row">
+          <div class="col-md-6">
+            <table class="table table-bordered table-hover active" *ngIf="filteredFood&&foodFound" style="height: 600px; display: block; overflow-y: auto;">
+              <thead>
+                <tr>
+                  <td>Name</td>
+                  <td>Calories</td>
+                  <td>Quantity</td>
+                  <td>Proteins (g)</td>
+                  <td>Carbs (g)</td>
+                  <td>Fats (g)</td>
+                  <!-- <td>Added by:</td> -->
+                </tr>
+              </thead>
+              <!-- style in tbody:  style="height: 500px; display: block; overflow-y: auto;" -->
+              <!-- <tbody style="height: 500px; display: block; overflow-y: auto;"> -->
+                <tbody>
+                <tr class="clickable-row active" *ngFor="let ff of filteredFood" (dblclick)="addOrRemoveFood(this.ff, type)">
+                  <td>{{ff.name}}</td>
+                  <td>{{ff.calories}}</td>
+                  <td>{{ff.quantity}} {{ff.unit}}</td>
+                  <td>{{ff.proteins}}</td>
+                  <td>{{ff.carbs}}</td>
+                  <td>{{ff.fats}}</td>
+                  <!-- <td>{{ff.addedBy}}</td> -->
+                </tr>
+              </tbody>
+            </table>
+            
+            <h6 class="alert" *ngIf="!foodFound">Food not found. Do you want to add new food in database?</h6>
+            
+          </div>
+
+          <div *ngIf="selectedFood.length" class="vl" col-md-2></div>
+          
+          <div class="col-md-4" *ngIf="selectedFood&&selectedFood.length">
+            <div class="row">
+
+            <div class="col-md-8">
+
+            
+            <h6>Your selection: </h6>
+            <h6>Total calories: {{totalCaloriesForThisMeal}} </h6>
+            <h6>Total proteins: {{totalProteinsForThisMeal}} g</h6>
+            <h6>Total carbs: {{totalCarbsForThisMeal}} g</h6>
+            <h6>Total fats: {{totalFatsForThisMeal}} g</h6>
+          </div>
+          <div class="col-md-4">
+
+            <!-- PIE CHAAAAAAAAAAAAAAAAAAAAAAAAAAAARTTTTTTTTT -->
+
+
+          </div>
+        </div>
+            <div class="card mb-1 card-body border-left-light yourSelection" *ngFor="let sF of selectedFood">
+              <!-- <div class="card-body border-left-light"> -->
+              <p>{{sF.name}} | P: {{sF.proteins}}, C: {{sF.carbs}}, F: {{sF.fats}}, C: {{sF.calories}}<i (click)="addOrRemoveFood(sF)" class="far fa-trash-alt trash-font-awesome"></i></p>
+              <p>Edit quantity: <input type="number" [(ngModel)]="sF.quantity" (change)="changeSelectedQuantity(sF)" class="quantity-input"> {{sF.unit}}</p>
+              <!-- <p>Edit quantity: <input type="number" value="{{sF.quantity}}" [(ngModel)]="sF.quantity" (change)="changeSelectedQuantity(sF.quantity, sF)" class="quantity-input"> {{sF.unit}}</p> -->
+              <!-- </div> -->
+            </div>
+          </div>
+      </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="c('Save click')">Close</button>
+          </div>
+  </ng-template>
+  </div>
+</div>
+
+<!-- SEARCH ENGINE -->
+<!-- <div class="input-group col-md-4">
+  <input type="text" class="form-control bg-light border-0 small" id="{{mT.type}}" [(ngModel)]="_searchTerm" (input)="filterFood(this._searchTerm)" placeholder="Search for food...">
+  <div class="input-group-append">
+    <button class="btn btn-primary" type="button">
+      <i class="fas fa-search fa-sm"></i>
+    </button>
+  </div>
+</div>
+<table class="table" *ngIf="filteredFood&&foodFound">
+  <thead>
+    <tr>
+      <td>Name</td>
+      <td>Added by:</td>
+    </tr>
+  </thead>
+<tbody>
+  <tr *ngFor="let ff of filteredFood">
+    <td>{{ff.name}}</td>
+    <td>{{ff.addedBy}}</td>
+  </tr>
+</tbody>
+</table>
+<h6 class="alert" *ngIf="!foodFound">No food found. Do you want to add new foods in database?</h6>
+
+</div>
+<div class="col-auto">
+<i class="fas fa-utensils fa-3x"></i>
+</div>
+</div> -->

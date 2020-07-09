@@ -1,0 +1,96 @@
+<div class="content">
+  <h1 class="pt-1 mb-3">Your daily nutrition goals</h1>
+
+
+  <div class = "row col-xl-12 col-md-12 col-lg-12">
+
+
+    <div class="col-xl-6 col-md-6 col-lg-6">
+
+        <!-- Area Chart -->
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Daily nutrition goals</h6>
+          </div>
+          <div class="card-body">
+            <h3 *ngIf="dailyNutritionGoals">Calories: {{dailyNutritionGoals.calories}}</h3>
+            <h3>Proteins: {{dailyNutritionGoals.proteins.number}} g</h3>
+            <h3>Carbohydrates: {{dailyNutritionGoals.carbs.number}} g</h3>
+            <h3>Fats: {{dailyNutritionGoals.fats.number}} g</h3>
+            <hr>
+            Your daily nutrition goals based on <a href = "/dashboard/profile"><code>your personal profile</code></a>.
+          </div>
+        </div>
+    </div>
+
+    <div class="col-xl-6 col-md-6 col-lg-6">
+
+        <!-- Area Chart -->
+        <div class="card shadow mb-4">
+          <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Calories by meal</h6>
+          </div>
+          <div class="card-body">
+            <h3>Breakfast: {{nutritionByMeal.breakfast.calories}} kilocalories</h3>
+            <h3>Lunch: {{nutritionByMeal.lunch.calories}} kilocalories</h3>
+            <h3>Dinner: {{nutritionByMeal.dinner.calories}} kilocalories</h3>
+            <h3>Snacks: {{nutritionByMeal.snacks.calories}} kilocalories</h3>
+            <hr>
+            Your daily calories divided by meals.
+          </div>
+        </div>
+    </div>
+
+  </div>
+
+<hr>
+
+ <div class = "row col-xl-12 col-md-12 col-lg-12">
+
+  <div class="col" *ngFor = "let item of nutritionByMeal | keyvalue:order" [ngStyle]="{'border': (valid_perc[item.key] == false) ? '0.5px solid red' : '' } " >
+    <div class="card shadow mb-4 mt-4">
+      <div class="card-header py-1">
+        <h5 class="mt-1 font-weight-bold text-primary">Nutrition facts for {{item.key | titlecase}}</h5>
+        <h6>Value of energy: {{item.value.calories}} kcal</h6>
+      </div>
+      <div class="card-body">
+        <table class = "table">
+          <tbody>
+            <tr>
+              <th scope="row">Proteins</th>
+              <td>{{item.value.proteins.number}} g</td>
+              <td><select (change)="selectChangeHandler(this.item.key, 'proteins', this.item.value.proteins, $event)"><option *ngFor="let v of value | keyvalue:orderValue" [value]="v.key" [selected]="v.key == item.value.proteins.percentage">{{v.value}}</option></select></td>
+            </tr>
+            <tr>
+              <th scope="row">Carbohydrates</th>
+              <td>{{item.value.carbs.number}} g</td>
+              <td><select (change)="selectChangeHandler(this.item.key, 'carbs', this.item.value.proteins, $event)"><option *ngFor="let v of value | keyvalue:orderValue" [value]="v.key" [selected]="v.key == item.value.carbs.percentage">{{v.value}}</option></select></td>
+            </tr>
+            <tr>
+              <th scope="row">Fats</th>
+              <td>{{item.value.fats.number}} g</td>
+              <td><select (change)="selectChangeHandler(this.item.key, 'fats', this.item.value.proteins, $event)"><option *ngFor="let v of value | keyvalue:orderValue" [value]="v.key" [selected]="v.key == item.value.fats.percentage">{{v.value}}</option></select></td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+        You can edit percentages for macronutrients<br>
+        <code *ngIf="valid_perc[item.key]==false">Note: macronutrients must equal 100%</code>
+      </div>
+    </div>
+  </div>
+
+  
+
+
+<!-- 
+  <div *ngFor = "let item of nutritionByMeal | keyvalue">
+    Key: {{item.key}} {{item.value.proteins.number}}
+  </div>
+  </div> -->
+ 
+  <button type="button" class="btn btn-primary btn-lg btn-block" [disabled]="saveButtonAction=='disabled'" (click)="saveNutritionGoals()">Save</button>
+</div>
+
+</div>
+

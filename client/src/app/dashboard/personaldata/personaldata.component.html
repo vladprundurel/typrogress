@@ -1,0 +1,91 @@
+<div class="content" *ngIf="!personalDetails">
+    <h1>Complete your personal details</h1>
+ 
+    <form #personalDetailsForm="ngForm" (ngSubmit)="submitPersonalDetailsForm(personalDetailsForm)">
+        <div class="col-xl-8 col-lg-7">
+          <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-primary">1. Your goal</h6>
+            </div>
+            <!-- Card Body -->
+              <div class="card-body">
+                <div class="form-group">
+                  <label>Goal</label>
+                  
+                <div class="form-check">
+                  <input class="form-check-input" name="goal" type="radio" value="lose_fat" id="lose_fat" #goal="ngModel" [(ngModel)]="userService.personalDetails.goal">
+                  <label class="form-check-label" for="lose_fat">Lose fat</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" name="goal" type="radio" value="gain_muscle" id="gain_muscle" #goal="ngModel" [(ngModel)]="userService.personalDetails.goal">
+                  <label class="form-check-label" for="gain_muscle">Gain muscle</label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" name="goal" type="radio" value="maintain_weight" id="maintain_weight" #goal="ngModel" [(ngModel)]="userService.personalDetails.goal">
+                  <label class="form-check-label" for="maintain_weight">Maintain Weight</label>
+                </div>
+              </div>
+              </div>
+          </div>
+        </div>
+       
+        <!-- <div class -->
+        <div class="col-xl-8 col-lg-7">
+          <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-primary">2. Personal details</h6>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Age</label>
+                <input type="number" class="form-control" name="age" id="exampleFormControlInput1" #age="ngModel" [(ngModel)]="userService.personalDetails.age" placeholder="Age">
+              </div>
+              <hr>
+              <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select id="gender" class="form-control" name="gender" #gender="ngModel" [(ngModel)]="userService.personalDetails.gender">
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </div>
+              <hr>
+
+              <div class="form-group">
+                <label for="height">Height</label>
+                <input type="number" class="form-control" name="height" id="height" #height="ngModel" [(ngModel)]="userService.personalDetails.height" placeholder="Height(cm)">
+              </div>
+              <hr>
+
+              <div class="form-group">
+                <label for="current-weight">Current weight</label>
+                <input type="number" class="form-control" name="current_weight" #current_weight="ngModel" [(ngModel)]="userService.personalDetails.current_weight" id="current-weight" placeholder="Weight(kg)">
+              </div>
+              <hr>
+
+              <div class="form-group">
+                <label for="desired-weight">Desired weight</label>
+                <input type="number" class="form-control" id="desired-weight" name="desired_weight" #desired_weight="ngModel" [(ngModel)]="userService.personalDetails.desired_weight" placeholder="Weight(kg)">
+              </div>
+              <hr>
+
+              <div class="form-group">
+                <label for="activity_level">Activity level:</label>
+                <select id="activity_level" class="form-control" name="activity_level" #activity_level="ngModel" [(ngModel)]="userService.personalDetails.activity_level">
+                  <option value="14">Very sedentary</option>
+                  <option value="14.5">Sedentary</option>
+                  <option value="15">Normal</option>
+                  <option value="15.5">Active</option>
+                  <option value="16">Very active</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        
+          <input type="submit" class="btn btn-primary btn-lg btn-block" value="submit">
+        </div>
+  </form>
+</div>
+

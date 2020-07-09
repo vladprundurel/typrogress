@@ -1,0 +1,37 @@
+ /* STYLE FOR MODAL IS IN STYLES.CSS GLOBAL */
+/* tr {
+    background-color: #3792cb;
+} */
+
+.vl {
+    border-left: 1px solid #3792cb;
+    height: 500px;
+  }
+
+  .border-left {
+    border-left: 1px solid #3792cb !important;
+  }
+  .border-left-primary {
+    border-left: 0.25rem solid #4e73df !important;
+  }
+
+  .border-left-light {
+    border-left: 0.25rem solid #4e73df !important;
+  }
+/* tr {
+    background-color: #a9f0ff !important;
+    font-weight: bold;
+} */
+.trash-font-awesome {
+  float: right;
+}
+
+.quantity-input {
+  width: 50px;
+}
+
+.yourSelection {
+  height: 90px;
+  padding-top: 8px;
+}
+
