@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FoodService } from 'src/app/shared/food.service';
 import { NgForm } from '@angular/forms';
 import { UserService } from 'src/app/shared/user.service';
@@ -14,13 +14,27 @@ export class AdminAddFoodInDbComponent implements OnInit {
 
   showSuccessMessage = false;
   showErrorMessage = false;
-  ngOnInit(): void { }
+  @Input() state;
+  @Input() display;
+  @Input() col;
+  ngOnInit(): void {
+    if (typeof this.col === "undefined") {
+      this.col = "col-xl-6 col-md-6 col-lg-6";
+    }
+   }
   
   submitFood(form: NgForm) {
 
     this.userService.getUserProfile().subscribe(
       res => {
         form.value.addedBy = res['user'].email;
+        if(typeof this.state === 'undefined') {
+          // form.value.state = "published";
+          this.state = "published";
+        }
+        form.value.state = this.state;
+        console.log(this.state);
+        
         this.foodService.postFoodAsAdmin(form.value).subscribe(
           res => {
             this.showSuccessMessage = true;

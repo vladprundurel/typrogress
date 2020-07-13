@@ -10,7 +10,8 @@ const FoodSchema = mongoose.Schema({
     proteins: Number,
     carbs: Number,
     fats: Number,
-    addedBy: String
+    addedBy: String,
+    state: String
 });
 
 const Food = module.exports = mongoose.model('Food', FoodSchema);

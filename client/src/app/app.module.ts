@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChartsModule } from '@rinminase/ng-charts';
-
+import { GaugeChartModule } from 'angular-gauge-chart';
 
 //components
 import { AppRoutingModule } from './app-routing.module';
@@ -34,6 +34,7 @@ import { AdminAllUsersComponent } from './dashboard/admin-all-users/admin-all-us
 import { CustomDashboardComponent } from './dashboard/custom-dashboard/custom-dashboard.component';
 import { EditProfileComponent } from './dashboard/profile/edit-profile/edit-profile/edit-profile.component';
 import { ActivityComponent } from './dashboard/profile/activity/activity/activity.component';
+import { AdminFoodRequestsComponent } from './dashboard/admin-food-requests/admin-food-requests/admin-food-requests.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { ActivityComponent } from './dashboard/profile/activity/activity/activit
     CustomDashboardComponent,
     EditProfileComponent,
     ActivityComponent,
+    AdminFoodRequestsComponent,
     // AddMealsModalComponent
   ],
   imports: [
@@ -63,7 +65,8 @@ import { ActivityComponent } from './dashboard/profile/activity/activity/activit
     HttpClientModule,
     NgbModule,
     ReactiveFormsModule,
-    ChartsModule
+    ChartsModule,
+    GaugeChartModule
   ],
   providers: [
     {

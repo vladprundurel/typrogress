@@ -107,6 +107,7 @@ router.post('/addFood', (req, res, next) => {
         carbs: req.body.carbs,
         fats: req.body.fats,
         addedBy: req.body.addedBy,
+        state: req.body.state
     });
 
     food.save((err, foodAdded) => {
@@ -238,7 +239,9 @@ router.get('/userPersonalDetails', jwtHelper.verifyJwtToken, (req, res, next) =>
 });
 
 router.get('/getAllFood', (req, res, next) => {
-    Food.find({}, function(err, food) {
+    Food.find({
+        state: "published"
+    }, function(err, food) {
         if(err) {
             console.log(err);
         } else {

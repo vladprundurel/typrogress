@@ -185,8 +185,10 @@
                 </tr>
               </tbody>
             </table>
-            
-            <h6 class="alert" *ngIf="!foodFound">Food not found. Do you want to add new food in database?</h6>
+            <div *ngIf="!foodFound">
+              <h6 class="alert mr-5">Food not found. Do you want to add new food in database? <button type="button" (click)="showAddFoodComponent()" class="btn btn-success">Add</button></h6>
+              <app-admin-add-food-in-db [state] = "state" [display] = "display" [col] = "col"></app-admin-add-food-in-db>
+            </div>
             
           </div>
 

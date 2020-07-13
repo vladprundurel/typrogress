@@ -13,6 +13,7 @@ import { AdminAddFoodInDbComponent } from './dashboard/admin-add-food-in-db/admi
 import { NutritionGoalsComponent } from './dashboard/nutrition-goals/nutrition-goals/nutrition-goals.component';
 import { AdminAllUsersComponent } from './dashboard/admin-all-users/admin-all-users.component';
 import { CustomDashboardComponent } from './dashboard/custom-dashboard/custom-dashboard.component';
+import { AdminFoodRequestsComponent } from './dashboard/admin-food-requests/admin-food-requests/admin-food-requests.component';
 
 export const appRoutes: Routes = [
     {
@@ -39,7 +40,8 @@ export const appRoutes: Routes = [
             { path: 'admin/addFood', component: AdminAddFoodInDbComponent},
             { path: 'nutrition-goals', component: NutritionGoalsComponent},
             { path: 'admin/users', component: AdminAllUsersComponent},
-            { path: 'custom-dashboard', component: CustomDashboardComponent}
+            { path: 'custom-dashboard', component: CustomDashboardComponent},
+            { path: 'food-requests', component: AdminFoodRequestsComponent}
         ]
     }
 ];

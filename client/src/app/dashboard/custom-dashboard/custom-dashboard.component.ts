@@ -26,23 +26,83 @@ export class CustomDashboardComponent implements OnInit {
     responsive: true
   };
   chartColors = [{ borderColor: '#28a745', backgroundColor: '#c3e6cb', pointBackgroundColor: '#28a745' }];
-  proteinsChartColors = [{ borderColor: '#431432', backgroundColor: '#c3e6cb', pointBackgroundColor: '#28a745' }];
-  carbsChartColors = [{ borderColor: '#28a745', backgroundColor: '#c3e6cb', pointBackgroundColor: '#28a745' }];
-  fatsChartColors = [{ borderColor: '#28a745', backgroundColor: '#003242', pointBackgroundColor: '#28a745' }];
+  proteinsChartColors = [{ borderColor: '#431432', backgroundColor: '#ff4d4d', pointBackgroundColor: '#000000' }];
+  carbsChartColors = [{ borderColor: '#f9e076', backgroundColor: '#fbe790', pointBackgroundColor: '#000000' }];
+  fatsChartColors = [{ borderColor: '#1167b1', backgroundColor: '#2a9df4', pointBackgroundColor: '#000000' }];
 
   chartLegend = false;
   chartPlugins = [];
 
   fromDateCustom;
   toDateCustom;
-  
+
+  //gauge chart data
+  public canvasWidth = 230
+  public centralLabel = ''
+  public proteinName = 'Proteins indicator'
+  public carbsName = 'Carbs indicator'
+  public fatsName = 'Fats indicator'
+  public caloriesName = 'Calories indicator'
+  public optionsProtein = {
+    hasNeedle: true,
+    needleColor: 'gray',
+    needleUpdateSpeed: 1000,
+    arcColors: ['rgba(44, 151, 222, 0.8)', 'rgba(44, 151, 222, 0.9)', 'rgb(44, 195, 132)', 'rgb(30, 178, 116)'],
+    arcDelimiters: [50, 70, 85],
+    rangeLabel: ['0%', '100%'],
+    needleStartValue: 50,
+}
+
+public optionsCarbs = {
+  hasNeedle: true,
+  needleColor: 'gray',
+  needleUpdateSpeed: 1000,
+  arcColors: ['rgba(44, 151, 222, 0.8)', 'rgba(44, 151, 222, 0.9)', 'rgb(44, 195, 132)', 'rgb(30, 178, 116)'],
+  arcDelimiters: [50, 70, 85],
+  rangeLabel: ['0%', '100%'],
+  needleStartValue: 50,
+}
+
+public optionsFats = {
+  hasNeedle: true,
+  needleColor: 'gray',
+  needleUpdateSpeed: 1000,
+  arcColors: ['rgba(44, 151, 222, 0.8)', 'rgba(44, 151, 222, 0.9)', 'rgb(44, 195, 132)', 'rgb(30, 178, 116)'],
+  arcDelimiters: [50, 70, 85],
+  rangeLabel: ['0%', '100%'],
+  needleStartValue: 50,
+}
+
+public optionsCalories = {
+  hasNeedle: true,
+  needleColor: 'gray',
+  needleUpdateSpeed: 1000,
+  arcColors: ['rgba(44, 151, 222, 0.8)', 'rgba(44, 151, 222, 0.9)', 'rgb(44, 195, 132)', 'rgb(30, 178, 116)'],
+  arcDelimiters: [50, 70, 85],
+  rangeLabel: ['0%', '100%'],
+  needleStartValue: 50,
+}
+
+public percentageCaloriesAcc = 0;
+public percentageProteinsAcc = 0;
+public percentageCarbsAcc = 0;
+public percentageFatsAcc = 0;
 
   constructor(public chartsService: ChartsService, private userService: UserService, private calendar: NgbCalendar, public formatter: NgbDateParserFormatter) {
-    this.fromDate = calendar.getToday();
-    this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
+    this.toDate = calendar.getToday();
+    this.fromDate = calendar.getPrev(calendar.getToday(), 'd', 10);
+
+    var fromDateCustom = this.fromDate.day + "-" + this.fromDate.month + "-" + this.fromDate.year;
+    var toDateCustom = this.toDate.day + "-" + this.toDate.month + "-" + this.toDate.year;
+    this.chartData["data"] = [];
+    this.chartLabels = [];
+    this.getCaloriesByDate(fromDateCustom, toDateCustom);
+    
    }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.getCaloriesByDate(this.fromDate, this.toDate);
+   }
 
   //datepicker
   onDateSelection(date: NgbDate) {
@@ -85,7 +145,9 @@ export class CustomDashboardComponent implements OnInit {
           response => { 
             // console.log("response");
             // console.log(response);
-            this.populateChartData(response);
+            this.populateChartData(response["caloriesByDate"]);
+            // this.populateGaugeCharts(response["percentageProteins"]);
+            this.populateGaugeCharts(response);
           },
           err => {}
         );
@@ -97,12 +159,24 @@ export class CustomDashboardComponent implements OnInit {
   populateChartData(data) {
     // console.log(data);
     data.forEach(element => {
-      console.log(element);
+      // console.log(element);
       this.chartLabels.push(element.date);
       this.chartData[0].data.push(element["total-calories"]);
       this.proteinChartData[0].data.push(element["total-proteins"]);
+      this.carbsChartData[0].data.push(element["total-carbs"]);
       this.fatsChartData[0].data.push(element["total-fats"]);
     });
+  }
+
+  populateGaugeCharts(data) {
+    // this.optionsProtein.arcDelimiters.pop();
+    this.percentageCaloriesAcc = Math.ceil(data["percentageCalories"]);
+    this.percentageProteinsAcc = Math.ceil(data["percentageProteins"]);
+    this.percentageCarbsAcc= Math.ceil(data["percentageCarbs"]);
+    this.percentageFatsAcc = Math.ceil(data["percentageFats"]);
+    // this.proteinName += " (" + this.percentageProteinsAcc + "%)";
+    // this.optionsProtein.arcDelimiters.push(Math.floor(this.percentageProteinsAcc));
+    // console.log(this.optionsProtein);
   }
 
 }

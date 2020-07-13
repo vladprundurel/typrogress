@@ -1,7 +1,8 @@
-<div class="content">
+<div class="content {{display}}">
         
   <form class="pt-4" #foodForm="ngForm" (ngSubmit)="submitFood(foodForm)">
-      <div class="col-xl-6 col-md-6 col-lg-6">
+      <div class = "{{col}}">
+        <div class="admin-form">
       <div class="card shadow mb-4">
       <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
           <h3><i class="fas fa-utensils"></i> Add food in database</h3>
@@ -34,7 +35,7 @@
           <div class="row mb-2"><div class="col-md-2"><p>Fats(g): </p></div><div class="col-md-6"><input type="number" class="form-control" name="fats" id="fats" #fats="ngModel" [(ngModel)]="foodService.food.fats" (change)="updateCalories()" placeholder="Fats"></div></div>
             
           <div class="row mb-2"><div class="col-md-2"><p>Calories: </p></div><div class="col-md-6"><input type="number" class="form-control" name="kcal" id="kcal" #kcal="ngModel" [(ngModel)]="foodService.food.calories" readonly placeholder="Kcal"></div></div>
-          </div>
+        </div>
 
       <input type="submit" class="btn btn-primary btn-lg" value="submit">
       <div class="success" *ngIf="showSuccessMessage">
@@ -43,7 +44,7 @@
       <div class="alert" *ngIf="showErrorMessage">
           Saved unsuccessfully
       </div>
-
+</div>
       </div>
     </div>
   </div>

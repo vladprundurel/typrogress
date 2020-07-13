@@ -18,6 +18,9 @@ import { FormArray } from '@angular/forms';
 })
 export class AddMealsComponent implements OnInit {
 
+ public state = "requested";
+ display = "d-none";
+ col = "";
   //Chart data
   chartOptions = {
     responsive: true
@@ -329,5 +332,10 @@ export class AddMealsComponent implements OnInit {
       res => {},
       err => {}
     )
+  }
+
+  showAddFoodComponent() {
+    // this.showAddFoodComponent = "show";
+    this.display = "";
   }
 }
