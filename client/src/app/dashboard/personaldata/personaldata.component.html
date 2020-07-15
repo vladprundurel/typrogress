@@ -1,6 +1,12 @@
 <!-- <div class="content" *ngIf="!personalDetails"> -->
   <div class="content">
-    <h1>Complete your personal details</h1>
+    <div *ngIf="successfullySaved" class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>Saved successfully</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!-- <h1>Complete your personal details</h1> -->
  
     <form #personalDetailsForm="ngForm" (ngSubmit)="submitPersonalDetailsForm(personalDetailsForm)">
         <div class="col-xl-8 col-lg-7">

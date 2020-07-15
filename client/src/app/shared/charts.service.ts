@@ -15,4 +15,9 @@ export class ChartsService {
     return this.http.get(environment.apiChartsBaseUrl + "/getCaloriesByDate", {params: httpParams});
 
   }
+
+  getMeasurementsData(from_date, to_date, userId) {
+    let httpParams = new HttpParams().set('from_date', from_date).set('to_date', to_date).set('user_id', userId);
+    return this.http.get(environment.apiChartsBaseUrl + "/getMeasurementsData", {params: httpParams});
+  }
 }

@@ -11,16 +11,20 @@ import { UserService } from 'src/app/shared/user.service';
 export class AdminAddFoodInDbComponent implements OnInit {
 
   constructor(public foodService: FoodService, public userService: UserService) { }
-
+  public isAdmin = false;
   showSuccessMessage = false;
   showErrorMessage = false;
   @Input() state;
   @Input() display;
   @Input() col;
+  @Input() permission;
   ngOnInit(): void {
     if (typeof this.col === "undefined") {
       this.col = "col-xl-6 col-md-6 col-lg-6";
+      this.isUserAdmin();
     }
+  console.log(this.permission);
+  console.log(this.isAdmin);
    }
   
   submitFood(form: NgForm) {
@@ -28,6 +32,8 @@ export class AdminAddFoodInDbComponent implements OnInit {
     this.userService.getUserProfile().subscribe(
       res => {
         form.value.addedBy = res['user'].email;
+        this.isAdmin = res['user'].role == 'admin';
+        console.log(this.isAdmin);
         if(typeof this.state === 'undefined') {
           // form.value.state = "published";
           this.state = "published";
@@ -49,6 +55,14 @@ export class AdminAddFoodInDbComponent implements OnInit {
       err => { }
     );
   }
+
+  isUserAdmin() {
+    this.userService.getUserProfile().subscribe(
+      res => {
+        this.isAdmin = res['user'].role == 'admin';
+      },
+      err => {}
+    );}
 
   updateCalories() {
     this.foodService.food.calories = this.foodService.food.proteins * 4 + this.foodService.food.carbs * 4 + this.foodService.food.fats * 9;

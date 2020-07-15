@@ -35,6 +35,9 @@ import { CustomDashboardComponent } from './dashboard/custom-dashboard/custom-da
 import { EditProfileComponent } from './dashboard/profile/edit-profile/edit-profile/edit-profile.component';
 import { ActivityComponent } from './dashboard/profile/activity/activity/activity.component';
 import { AdminFoodRequestsComponent } from './dashboard/admin-food-requests/admin-food-requests/admin-food-requests.component';
+import { TabulatorTableComponent } from './dashboard/tabulator-tables/tabulator-tables.component';
+import { CheckInComponent } from './dashboard/profile/check-in/check-in.component';
+import { CustomDashboardMeasurementsComponent } from './dashboard/custom-dashboard-measurements/custom-dashboard-measurements.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +58,9 @@ import { AdminFoodRequestsComponent } from './dashboard/admin-food-requests/admi
     EditProfileComponent,
     ActivityComponent,
     AdminFoodRequestsComponent,
+    TabulatorTableComponent,
+    CheckInComponent,
+    CustomDashboardMeasurementsComponent
     // AddMealsModalComponent
   ],
   imports: [

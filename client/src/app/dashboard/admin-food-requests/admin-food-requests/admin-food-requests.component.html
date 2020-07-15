@@ -1,0 +1,10 @@
+<div *ngIf="isAdmin; else isNotAd">
+    <h2>Approve foods requested by users</h2>
+    <app-tabulator-table [tableData]="data" [columnNames]="columnNames"></app-tabulator-table>
+    
+</div>
+
+<ng-template #isNotAd>
+    <h1 class="text-danger">You don't have permission to see this page.</h1>
+</ng-template>
+

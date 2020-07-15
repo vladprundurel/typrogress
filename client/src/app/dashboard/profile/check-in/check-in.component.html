@@ -1,0 +1,69 @@
+<div *ngIf="successfullySaved" class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Saved successfully</strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+<form class="form-inline">
+    <div class="form-group">
+        <div class="input-group">
+            <h4 class="mr-3">Choose date for check-in</h4>
+            <input class="form-control" placeholder="yyyy-mm-dd" name="d2" #c2="ngModel" [(ngModel)]="model"
+            (ngModelChange)="dateChanged()" ngbDatepicker #d2="ngbDatepicker">
+            <div class="input-group-append">
+                <i class="far fa-calendar-alt fa-2x ml-1" (click)="d2.toggle()" type="button"></i>
+                <!-- <button class="btn btn-outline-secondary fa-calendar" (click)="d2.toggle()" type="button"></button> -->
+                <!-- <button class="btn btn-sm btn-outline-primary ml-3" (click)="model = today" (click)="dateChanged()">Select Today</button> -->
+            </div>
+        </div>
+    </div>
+</form>
+<p *ngIf="checkInDoneData" class="text-success">You already checked in this day (weight: {{checkInDoneData.weight || 0}} kg, neck: {{checkInDoneData.neck || 0}} cm, waist: {{checkInDoneData.waist || 0}} cm ,
+    hips: {{checkInDoneData.hips || 0}} cm). Click save to update data.</p>
+<!-- <p *ngIf="checkInDoneData.length<0">not check in</p> -->
+<p *ngIf="!checkInDoneData" class="text-info">Check in now!</p>
+<hr />
+
+
+<div *ngIf="model">
+    <form class="form-horizontal" #checkInForm="ngForm" (ngSubmit)="submitCheckInData(checkInForm)">
+        <div class="form-group row">
+            <label for="weight" class="col-sm-2 col-form-label">Weight (kg)</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="weight" name="weight" #weigth="ngModel" [(ngModel)]="checkInData.weight" placeholder="Weight (kg)">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="neck" class="col-sm-2 col-form-label">Neck (cm)</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="neck" name="neck" #neck="ngModel" [(ngModel)]="checkInData.neck" placeholder="Neck (cm)">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="waist" class="col-sm-2 col-form-label">Waist (cm)</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="waist" name="waist" #waist="ngModel" [(ngModel)]="checkInData.waist" placeholder="Waist (cm)">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="hips" class="col-sm-2 col-form-label">Hips (cm)</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="hips" name="hips" #hips="ngModel" [(ngModel)]="checkInData.hips" placeholder="Hips (cm)">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="offset-sm-2 col-sm-10">
+                <button type="submit" class="btn btn-success">Save changes</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+<!-- <pre>Model: {{ model | json }}</pre>
+    <pre>State: {{ c2.status }}</pre> -->

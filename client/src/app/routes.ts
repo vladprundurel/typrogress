@@ -14,6 +14,7 @@ import { NutritionGoalsComponent } from './dashboard/nutrition-goals/nutrition-g
 import { AdminAllUsersComponent } from './dashboard/admin-all-users/admin-all-users.component';
 import { CustomDashboardComponent } from './dashboard/custom-dashboard/custom-dashboard.component';
 import { AdminFoodRequestsComponent } from './dashboard/admin-food-requests/admin-food-requests/admin-food-requests.component';
+import { CustomDashboardMeasurementsComponent } from './dashboard/custom-dashboard-measurements/custom-dashboard-measurements.component';
 
 export const appRoutes: Routes = [
     {
@@ -41,7 +42,8 @@ export const appRoutes: Routes = [
             { path: 'nutrition-goals', component: NutritionGoalsComponent},
             { path: 'admin/users', component: AdminAllUsersComponent},
             { path: 'custom-dashboard', component: CustomDashboardComponent},
-            { path: 'food-requests', component: AdminFoodRequestsComponent}
+            { path: 'food-requests', component: AdminFoodRequestsComponent},
+            { path: 'custom-dashboard-measurements', component: CustomDashboardMeasurementsComponent}
         ]
     }
 ];

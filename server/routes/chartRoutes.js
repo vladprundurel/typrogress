@@ -5,20 +5,86 @@ var moment = require('moment');
 
 const Meal = require('../models/meal');
 const UserNutritionData = require('../models/userNutritionData');
+const CheckIn = require('../models/checkIn');
 const { resolve } = require('path');
 
-//params: from_date, to_date
-router.get('/getCaloriesByDate', (req, res, next) => {
-
+router.get('/getMeasurementsData', (req, res, next) => {
     moment.locale();
-
     var query = require('url').parse(req.url, true).query;
     var from_date = query.from_date.split("-");
     var to_date = query.to_date.split("-");
     var user_id = query.user_id;
     var from_date2 = from_date[2] + "-" + from_date[1] + "-" + from_date[0];
     var to_date2 = to_date[2] + "-" + to_date[1] + "-" + to_date[0];
+    console.log(from_date2);
+    CheckIn.find({
+        "date": {
+            $gte: from_date2,
+            $lte: to_date2
+        },
+        "userId": user_id
+    },
+        {
+            "date": 1,
+            "weight": 1,
+            "neck": 1,
+            "waist": 1,
+            "hips": 1,
+            "_id": 0
+        },
+        {
+            sort: 'date'
+        }, (err, checkInData) => {
+            if (err) {
+                console.log(err);
+            } else {
+                checkInByDate = [];
+                if(checkInData) {
+                    try {
+                        checkInData.forEach(data => {
+                            data = data.toObject();
+                            weight = data.weight;
+                            neck = data.neck;
+                            waist = data.waist;
+                            hips = data.hips;
+                            date = moment(data.date).locale("ro").format('l');
+                            checkInByDate.push(
+                            {
+                                "date": date,
+                                "weight": weight,
+                                "neck": neck,
+                                "waist": waist,
+                                "hips": hips
+                            }
+                            );
+                        });
+                        res.send(checkInByDate);
+                    }catch(e) {
 
+                    }
+                }
+               
+                
+            }
+        }
+    )
+
+});
+
+
+//params: from_date, to_date
+router.get('/getCaloriesByDate', (req, res, next) => {
+
+    moment.locale();
+    // console.log(query.from_date);
+
+    var query = require('url').parse(req.url, true).query;
+    var from_date = query.from_date.split("-");
+    
+    var to_date = query.to_date.split("-");
+    var user_id = query.user_id;
+    var from_date2 = from_date[2] + "-" + from_date[1] + "-" + from_date[0];
+    var to_date2 = to_date[2] + "-" + to_date[1] + "-" + to_date[0];
     UserNutritionData.find({
         "userId": user_id
     }, (err, data) => {
@@ -43,7 +109,6 @@ router.get('/getCaloriesByDate', (req, res, next) => {
                 console.log(e);
             }
         }
-
         console.log(caloriesRecommended);
         Meal.find({
             "mealByUser.date": {
@@ -64,8 +129,6 @@ router.get('/getCaloriesByDate', (req, res, next) => {
 
                 var caloriesByDate = [];
                 var date;
-
-
                 var mediumCalories = 0;
                 var mediumProteins = 0;
                 var mediumCarbs = 0;

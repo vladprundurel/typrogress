@@ -1,4 +1,4 @@
-<div class="content {{display}}">
+<div class="content {{display}}" *ngIf="isAdmin==true || permission==true">
         
   <form class="pt-4" #foodForm="ngForm" (ngSubmit)="submitFood(foodForm)">
       <div class = "{{col}}">
@@ -53,3 +53,7 @@
 
 
 </div>
+
+<!-- <div *ngIf="!isAdmin"> -->
+  <h1 class="text-danger" *ngIf="!isAdmin && !permission">You don't have permission to see this page.</h1>
+<!-- </div> -->

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { UserService } from 'src/app/shared/user.service';
 import { NgForm } from '@angular/forms';
 import { FoodService } from 'src/app/shared/food.service';
@@ -12,6 +12,8 @@ export class PersonaldataComponent implements OnInit {
 
   //variables
   public personalDetails: any;
+  public successfullySaved = false;
+  @Input() age;
 
   public dailyNutritionGoals = {
     "calories": null,
@@ -46,6 +48,7 @@ export class PersonaldataComponent implements OnInit {
     this.userService.getPersonalDetails().subscribe(
       res => {
         this.personalDetails = res['personalDetails'];
+        // console.log(this.personalDetails);
       },
       err => {}
     );
@@ -54,6 +57,7 @@ export class PersonaldataComponent implements OnInit {
   }
 
   submitPersonalDetailsForm(form: NgForm){
+    this.successfullySaved = true;
     this.calculateNutritionFacts(form.value);
     console.log(form.value);
     form.value.user = this.userId;

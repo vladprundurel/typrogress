@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class DashboardComponent implements OnInit {
   
   userDetails;
+  isAdmin = false;
   // url: string = 'https://getbootstrap.com/docs/4.5/getting-started/download/';
   // urlSafe: SafeResourceUrl;
 
@@ -20,6 +21,7 @@ export class DashboardComponent implements OnInit {
     this.userService.getUserProfile().subscribe(
       res => {
         this.userDetails = res['user'];
+        this.isAdmin = this.userDetails.role == 'admin';
       },
       err => {}
     );

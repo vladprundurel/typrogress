@@ -42,6 +42,7 @@ export class NutritionGoalsComponent implements OnInit {
   }
 
   public saveButtonAction = 'enabled';
+  public successfullySaved = false;
 
 
   constructor(public foodService: FoodService, public userService: UserService) {
@@ -124,6 +125,7 @@ export class NutritionGoalsComponent implements OnInit {
     }
 
     saveNutritionGoals() {
+      this.successfullySaved = true;
       this.foodService.updateUserNutritionData(this.userNutritionData).subscribe(
         res => {},
         err => {}

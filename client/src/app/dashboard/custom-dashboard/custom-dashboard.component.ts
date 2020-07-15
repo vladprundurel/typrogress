@@ -26,9 +26,9 @@ export class CustomDashboardComponent implements OnInit {
     responsive: true
   };
   chartColors = [{ borderColor: '#28a745', backgroundColor: '#c3e6cb', pointBackgroundColor: '#28a745' }];
-  proteinsChartColors = [{ borderColor: '#431432', backgroundColor: '#ff4d4d', pointBackgroundColor: '#000000' }];
-  carbsChartColors = [{ borderColor: '#f9e076', backgroundColor: '#fbe790', pointBackgroundColor: '#000000' }];
-  fatsChartColors = [{ borderColor: '#1167b1', backgroundColor: '#2a9df4', pointBackgroundColor: '#000000' }];
+  proteinsChartColors = [{ borderColor: '#C0392B', backgroundColor: '#EC7063', pointBackgroundColor: '#A93226' }];
+  carbsChartColors = [{ borderColor: '#F4D03F', backgroundColor: '#F9E79F', pointBackgroundColor: '#F1C40F' }];
+  fatsChartColors = [{ borderColor: '#2E86C1', backgroundColor: '#85C1E9', pointBackgroundColor: '#1F618D' }];
 
   chartLegend = false;
   chartPlugins = [];

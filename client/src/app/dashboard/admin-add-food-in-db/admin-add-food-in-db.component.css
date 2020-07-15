@@ -1,3 +1,15 @@
 /* .admin-form{ 
     width: 50%;
 } */
+
+.success {
+    background-color: #28B463;
+    font-size: 20px;
+    text-decoration: bold;
+}
+
+.alert {
+    background-color: #E74C3C;
+    font-size: 20px;
+    text-decoration: bold;
+}

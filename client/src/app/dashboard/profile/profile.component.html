@@ -46,7 +46,7 @@
                        alt="User profile picture">
                 </div>
 
-                <h3 class="profile-username text-center">{{accountDetails.first_name}} {{accountDetails.last_name}}</h3>
+                <h3 class="profile-username text-center" *ngIf="accountDetails">{{accountDetails.first_name}} {{accountDetails.last_name}}</h3>
 
                 <p class="text-muted text-center">{{accountDetails.email}}</p>
 
@@ -62,7 +62,7 @@
                   </li>
                 </ul>
 
-                <a href="#" class="btn btn-primary btn-block"><b>See stats</b></a>
+                <a href="/dashboard/custom-dashboard" class="btn btn-primary btn-block"><b>Analytics report</b></a>
               </div>
               <!-- /.card-body -->
             </div>
@@ -71,39 +71,27 @@
             <!-- About Me Box -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">About Me</h3>
+                <h3 class="card-title">All time statistics</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <strong><i class="fas fa-book mr-1"></i> Education</strong>
+                <strong><i class="fas fa-carrot mr-1"></i> Meals added: </strong>
 
-                <p class="text-muted">
-                  B.S. in Computer Science from the University of Tennessee at Knoxville
-                </p>
+                <h3 class="text-muted ml-3">{{mealsAdded}}</h3>
 
                 <hr>
 
-                <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
+                <strong><i class="fas fa-check-square mr-1" aria-hidden="true"></i> Food published: </strong>
 
-                <p class="text-muted">Malibu, California</p>
-
-                <hr>
-
-                <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
-
-                <p class="text-muted">
-                  <span class="tag tag-danger">UI Design</span>
-                  <span class="tag tag-success">Coding</span>
-                  <span class="tag tag-info">Javascript</span>
-                  <span class="tag tag-warning">PHP</span>
-                  <span class="tag tag-primary">Node.js</span>
-                </p>
+                <h3 class="text-muted ml-3">{{foodPublished}}</h3>
 
                 <hr>
 
-                <strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
+                <strong><i class="fas fa-user-check"></i> Check Ins:</strong>
 
-                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
+                <h3 class="text-muted ml-3">{{checkIns}}</h3>
+
+                <hr>
               </div>
               <!-- /.card-body -->
             </div>
@@ -117,7 +105,7 @@
                     <li class="nav-item"><a class="nav-link active" href="#editProfile" data-toggle="tab">Edit profile</a></li>
                     <li class="nav-item"><a class="nav-link" href="#editPersonalDetails" data-toggle="tab">Edit personal details</a></li>
                     <li class="nav-item"><a class="nav-link" href="#checkIn" data-toggle="tab">Check In</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">My requests</a></li>
+                    <!-- <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">My requests</a></li> -->
                 </ul>
               </div><!-- /.card-header -->
               <div class="card-body">
@@ -270,6 +258,7 @@
                         </div>
                       </div>
                     </form>
+                    <!-- <app-personaldata [age]="age"></app-personaldata> -->
                   </div>
 
 
@@ -310,6 +299,12 @@
                     </form>
                   </div>
                   <!-- /.tab-pane -->
+
+                  <div class="tab-pane" id="checkIn">
+                    <app-check-in></app-check-in>
+                  </div>
+
+
                 </div>
                 <!-- /.tab-content -->
               </div><!-- /.card-body -->

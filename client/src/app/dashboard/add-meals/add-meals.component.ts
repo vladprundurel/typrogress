@@ -73,6 +73,7 @@ export class AddMealsComponent implements OnInit {
   }
   public dailyNutritionGoals;
   public totalCaloriesByFoodAdded = 0;
+  public permission = true;
 
   constructor(private foodService: FoodService, private userService: UserService, private router: Router, private modalService: NgbModal, config: NgbModalConfig, private calendar: NgbCalendar) { 
     config.windowClass = "addMealModal";
@@ -218,6 +219,13 @@ export class AddMealsComponent implements OnInit {
       // this.router.navigateByUrl('/dashboard');
       return `with: ${reason}`;
     }
+  }
+
+  saveMeal() {
+    this.postMealInDb(this.meal);
+    this.setDate();
+    this.getMeals();
+    location.reload();
   }
 
   filterFood(searchString: string) {

@@ -12,6 +12,8 @@ const PersonalDetails = require('../models/personalDetails');
 const Food = require('../models/food');
 const Meal = require('../models/meal');
 const UserNutritionData = require('../models/userNutritionData');
+const CheckIn = require('../models/checkIn');
+const food = require('../models/food');
 
 router.get('/users', (req, res, next)=>{
     User.find(function(err, users){
@@ -334,5 +336,217 @@ router.post('/updateUserNutritionData', (req, res, next) => {
 
 });
 
+router.get('/requestedFood', (req, res, next) => {
+
+    Food.find({
+        'state': 'requested'
+    }, function(err, response) {
+        if (response) {
+            console.log(response);
+            res.send(response);
+        } else {
+            console.log(err);
+        }
+    });
+});
+
+router.post('/updateFoodState', (req, res, next) => {
+
+    
+    var food_id = req.body.food_id;
+    var state = req.body.state;
+    if (state == 'remove') {
+        console.log(state);
+        Food.findByIdAndDelete(food_id, (err, succ) => {
+        if (succ) {
+            console.log("deleted");
+        } else {
+            console.log("err");
+        }
+    });
+    } else {
+    Food.findOneAndUpdate({
+        '_id': food_id
+    }, 
+    {
+        $set: {
+            'state': state
+        }
+    },
+    (err, succ) => {
+        if(succ) {
+            console.log("SUCC");
+        } else {
+            console.log("err");
+        }
+    }
+    );
+}
+
+});
+
+router.post('/updateRole', (req, res, next) => {
+
+    var user_id = req.body.user_id;
+    var role = req.body.role;
+
+    User.findByIdAndUpdate(user_id, 
+        {$set: {'role': role}}, 
+        (err, succ) => {
+            if(succ) {
+                console.log("succ");
+            } else {
+                console.log('err');
+            }
+        })
+});
+
+router.post('/checkIn', (req, res, next) => {
+
+    var new_date = req.body.date.split("-");
+    var day = new_date[0];
+    var month = new_date[1];
+    var year = new_date[2];
+    req.body.date = year+"-"+month+"-"+day;
+
+    var data = req.body;
+
+
+    CheckIn.findOneAndUpdate({
+        "date": data.date,
+        "userId": data.userId
+    },
+    {
+        $set: {
+            "weight": data.weight,
+            "neck": data.neck,
+            "waist": data.waist,
+            "hips": data.hips
+        }
+    }, (err, succ) => {
+        if (succ) {
+            console.log("updatat cu succes!");
+        } else {
+            console.log("don t find");
+
+            var checkIn = new CheckIn({
+                userId: data.userId,
+                date: data.date,
+                weight: data.weight,
+                neck: data.neck,
+                waist: data.waist,
+                hips: data.hips
+            });
+
+            checkIn.save((err, dataSaved) => {
+                if(!err) {
+                    console.log(dataSaved);
+                    console.log("meal added");
+                } else {
+                    console.log(err);
+                }
+            });
+            // console.log(data);
+        }
+    }
+    );
+
+   
+});
+
+router.get('/getCheckInDoneData', (req, res, next) => {
+    var query = require('url').parse(req.url, true).query;
+    var userId = query.userId;
+    // console.log(query.date);
+    var data = query.date.split("-");
+    var day = data[0];
+    var month = data[1];
+    var year = data[2];
+    var date = data[2] + "-" + month + "-" + day;
+    // console.log(date);
+    // var date = query.date[2]+"-"+query.date[1]+"-"+query.date[0];
+
+    // var new_date = req.body.date.split("-");
+    // var day = new_date[0];
+    // var month = new_date[1];
+    // var year = new_date[2];
+
+    CheckIn.findOne({
+        'userId': userId,
+        'date': date
+    }, (err, succ) => {
+        if(err) {
+            console.log(err);
+        } else {
+            console.log(succ);
+            // if (succ == null) {
+            //     succ = [];
+            // }
+            res.send(succ);
+        }
+    }
+    );
+
+});
+
+router.get('/foodPublished', (req, res, next) => {
+    var query = require('url').parse(req.url, true).query;
+    var userId = query.userId;
+    // var count;
+    // // console.log(userId);
+    // var foodPublished = getFoodPublished(userId);
+    // console.log(foodPublished);
+    var foodPublished = {
+        "count": 0
+    };
+    Food.countDocuments({
+        'addedBy': userId,
+        'state': 'published'
+    }, (err, count) => {
+        if(!err) {
+            foodPublished.count = count;
+            res.send(foodPublished);
+        }
+        
+    });
+    // console.log(count);
+
+});
+
+router.get('/mealsAdded', (req, res, next) => {
+    var query = require('url').parse(req.url, true).query;
+    var userId = query.userId;
+    var mealsPublished = {
+        "count": 0
+    };
+
+    Meal.countDocuments({
+        'mealByUser.userId': userId
+    }, (err, count) => {
+        if(!err) {
+            mealsPublished.count = count;
+            res.send(mealsPublished);
+        }
+        
+    });
+
+});
+
+router.get('/checkIns', (req, res, next) => {
+    var query = require('url').parse(req.url, true).query;
+    var userId = query.userId;
+    var checkIns = {
+        "count": 0
+    };
+
+    CheckIn.countDocuments({
+        'userId': userId
+    }, (err, count) => {
+        if(!err) {
+            checkIns.count = count;
+            res.send(checkIns);
+        }
+    });
+});
 
 module.exports = router;

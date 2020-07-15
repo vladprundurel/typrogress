@@ -12,4 +12,8 @@ export class AdminService {
   getAllUsers() {
     return this.http.get(environment.apiBaseUrl + '/getAllUsers');
   }
+
+  updateRole(data) {
+    return this.http.post(environment.apiBaseUrl + '/updateRole', data);
+  }
 }

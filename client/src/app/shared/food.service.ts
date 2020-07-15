@@ -59,6 +59,15 @@ export class FoodService {
     return this.http.post(environment.apiBaseUrl + '/updateUserNutritionData', userNutritionData);
   }
 
+  getRequestedFood() {
+    return this.http.get(environment.apiBaseUrl + '/requestedFood');
+  }
+
+  updateFoodState(data) {
+    // let httpParams = new HttpParams().set('food_id', food_id).set('state', state);
+    return this.http.post(environment.apiBaseUrl + '/updateFoodState', data);
+  }
+
 }
 
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
 
@@ -10,7 +10,7 @@ import { PersonalDetails } from './personal-details.model';
   providedIn: 'root'
 })
 export class UserService {
-  
+
   selectedUser: User = {
     first_name: '',
     last_name: '',
@@ -30,14 +30,14 @@ export class UserService {
     activity_level: null
   };
 
-  noAuthHeader = { 
-    headers: new HttpHeaders({ 'NoAuth': 'True'}) 
+  noAuthHeader = {
+    headers: new HttpHeaders({ 'NoAuth': 'True' })
   };
 
   constructor(private http: HttpClient) { }
 
   //http methods
-  postUser(user: User){ 
+  postUser(user: User) {
     console.log(user);
     return this.http.post(environment.apiBaseUrl + '/register', user, this.noAuthHeader);
 
@@ -92,11 +92,35 @@ export class UserService {
 
   isLoggedIn() {
     var userPayload = this.getUserPayload();
-    if(userPayload) {
+    if (userPayload) {
       return userPayload.exp > Date.now() / 1000;
     } else {
       return false;
     }
   }
 
+  postCheckInData(data) {
+    return this.http.post(environment.apiBaseUrl + '/checkIn', data);
+  }
+
+  getCheckInDoneData(userId, date) {
+    // console.log(date);
+    let httpParams = new HttpParams().set('userId', userId).set('date', date);
+    return this.http.get(environment.apiBaseUrl + '/getCheckInDoneData', { params: httpParams });
+  }
+
+  getFoodPublished(userId) {
+    let httpParams = new HttpParams().set('userId', userId);
+    return this.http.get(environment.apiBaseUrl + '/foodPublished', { params: httpParams });
+  }
+
+  getMealsAdded(userId) {
+    let httpParams = new HttpParams().set('userId', userId);
+    return this.http.get(environment.apiBaseUrl + '/mealsAdded', { params: httpParams });
+  }
+
+  getCheckIns(userId) {
+    let httpParams = new HttpParams().set('userId', userId);
+    return this.http.get(environment.apiBaseUrl + '/checkIns', { params: httpParams });
+  }
 }

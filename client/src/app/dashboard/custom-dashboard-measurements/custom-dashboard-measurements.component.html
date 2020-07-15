@@ -1,0 +1,163 @@
+<form class="form-inline">
+    <div class="form-group hidden">
+        <div class="input-group">
+            <input name="datepicker" class="form-control" ngbDatepicker #datepicker="ngbDatepicker"
+                [autoClose]="'outside'" (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t"
+                outsideDays="hidden" [startDate]="fromDate!">
+            <ng-template #t let-date let-focused="focused">
+                <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
+                    [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date"
+                    (mouseleave)="hoveredDate = null">
+                    {{ date.day }}
+                </span>
+            </ng-template>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <input #dpFromDate class="form-control" placeholder="yyyy-mm-dd" name="dpFromDate"
+                [value]="formatter.format(fromDate)" (input)="fromDate = validateInput(fromDate, dpFromDate.value)">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="datepicker.toggle()" type="button"></button>
+            </div>
+        </div>
+    </div>
+    <div class="form-group ml-2">
+        <div class="input-group">
+            <input #dpToDate class="form-control" placeholder="yyyy-mm-dd" name="dpToDate"
+                [value]="formatter.format(toDate)" (input)="toDate = validateInput(toDate, dpToDate.value)">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="datepicker.toggle()" type="button"></button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold">Your weight over time</h6>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <canvas baseChart width="200" height="80" chartType="line" [datasets]="chartData"
+                        [labels]="chartLabels" [options]="chartOptions" [colors]="chartColors" [legend]="chartLegend"
+                        [plugins]="chartPlugins">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="col-md-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold">Indicators of accuracy</h6>
+            </div>
+            <div class="row mt-2">
+
+                <rg-gauge-chart class="col-md-4" [canvasWidth]="canvasWidth" [needleValue]="percentageProteinsAcc"
+                    [centralLabel]="centralLabel" [options]="optionsProtein"
+                    [name]="proteinName + ' (' + this.percentageProteinsAcc + '%)'">
+                </rg-gauge-chart>
+
+                <rg-gauge-chart class="col-md-4" [canvasWidth]="canvasWidth" [needleValue]="percentageCarbsAcc"
+                    [centralLabel]="centralLabel" [options]="optionsCarbs"
+                    [name]="carbsName + ' (' + this.percentageCarbsAcc + '%)'"></rg-gauge-chart>
+
+                <rg-gauge-chart class="col-md-4" [canvasWidth]="canvasWidth" [needleValue]="percentageFatsAcc"
+                    [centralLabel]="centralLabel" [options]="optionsFats"
+                    [name]="fatsName  + ' (' + this.percentageFatsAcc + '%)'"></rg-gauge-chart>
+
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <rg-gauge-chart class="col-md-4" [canvasWidth]="canvasWidth" [needleValue]="percentageCaloriesAcc"
+                    [centralLabel]="centralLabel" [options]="optionsCalories"
+                    [name]="caloriesName + ' (' + this.percentageCaloriesAcc + '%)'"></rg-gauge-chart>
+
+            </div>
+        </div>
+
+    </div> -->
+
+    <div class="col-xl-6 col-lg-6 col-md-6">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold">Neck measurement over time</h6>
+            </div>
+
+            <!-- datepicker -->
+
+            <!-- datepicker end -->
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="form-group">
+                    <!-- <label>Calories eaten</label> -->
+
+                    <canvas baseChart width="200" height="80" chartType="line" [datasets]="proteinChartData"
+                        [labels]="chartLabels" [options]="chartOptions" [colors]="proteinsChartColors"
+                        [legend]="chartLegend" [plugins]="chartPlugins">
+                    </canvas>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-6">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold">Waist measurements over time</h6>
+            </div>
+
+            <!-- datepicker -->
+
+            <!-- datepicker end -->
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="form-group">
+                    <!-- <label>Calories eaten</label> -->
+
+                    <canvas baseChart width="200" height="80" chartType="line" [datasets]="carbsChartData"
+                        [labels]="chartLabels" [options]="chartOptions" [colors]="carbsChartColors"
+                        [legend]="chartLegend" [plugins]="chartPlugins">
+                    </canvas>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 col-md-6">
+        <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold">Hips measurements over time</h6>
+            </div>
+
+            <!-- datepicker -->
+
+            <!-- datepicker end -->
+            <!-- Card Body -->
+            <div class="card-body">
+                <div class="form-group">
+                    <!-- <label>Calories eaten</label> -->
+
+                    <canvas baseChart width="200" height="80" chartType="line" [datasets]="fatsChartData"
+                        [labels]="chartLabels" [options]="chartOptions" [colors]="fatsChartColors"
+                        [legend]="chartLegend" [plugins]="chartPlugins">
+                    </canvas>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
