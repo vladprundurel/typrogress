@@ -112,9 +112,15 @@ public percentageFatsAcc = 0;
       this.toDate = date;
       var fromDateCustom = this.fromDate.day + "-" + this.fromDate.month + "-" + this.fromDate.year;
       var toDateCustom = this.toDate.day + "-" + this.toDate.month + "-" + this.toDate.year;
-      this.chartData["data"] = [];
+      // this.chartData["data"] = [];
+      this.chartData[0].data = [];
+      this.proteinChartData[0].data = [];
+      this.carbsChartData[0].data = [];
+      this.fatsChartData[0].data = [];
       this.chartLabels = [];
+      console.log(this.chartData[0].data);
       this.getCaloriesByDate(fromDateCustom, toDateCustom);
+      
     } else {
       this.toDate = null;
       this.fromDate = date;
@@ -157,8 +163,15 @@ public percentageFatsAcc = 0;
   }
 
   populateChartData(data) {
+    // console.log(data)
+    // while(this.chartData["data"].length > 0) {
+    //   console.log(this.chartData["data"]);
+    //   this.chartData["data"].pop();
+    // }
+    // this.chartData["data"] = [];
     // console.log(data);
     data.forEach(element => {
+      // console.log(element);
       // console.log(element);
       this.chartLabels.push(element.date);
       this.chartData[0].data.push(element["total-calories"]);
